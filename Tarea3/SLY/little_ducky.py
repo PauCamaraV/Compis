@@ -76,7 +76,7 @@ class CalcLexer(Lexer):
 
     def error(self, t):
         print('Unvalid character %r at line: %d:' % (self.lineno, t.value[0]))
-        self.index += 1
+        #self.index += 1
    
 # ***** PARSER *****
 
