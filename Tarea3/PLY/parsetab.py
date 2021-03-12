@@ -6,9 +6,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'COLON COMMA DIFFERENT DIVIDE ELSE EQUAL FLOAT GREATER ID IF INT LEFT_CURVBR LEFT_PAR LESS MINUS MULTIPLY PLUS PRINT PROGRAM RIGHT_CURVBR RIGHT_PAR SEMICOLON STRING VAR\n\n    program :  PROGRAM ID SEMICOLON programA\n\n    programA : vars bloque empty\n            | bloque empty\n    \n\n    vars : VAR varsA \n\n    varsA : ID COMMA varsA \n        | ID COLON tipo SEMICOLON empty\n        | ID COLON tipo SEMICOLON varsA empty\n    \n\n    tipo : INT empty\n        | FLOAT empty\n    \n\n    bloque : LEFT_CURVBR bloqueA\n          | LEFT_CURVBR RIGHT_CURVBR empty\n\n    bloqueA : estatuto RIGHT_CURVBR empty\n            | estatuto bloqueA\n    \n\n    estatuto : asignacion empty\n            | condicion empty\n            | escritura empty\n    \n\n    asignacion : ID EQUAL expresion SEMICOLON empty\n    \n\n    condicion : IF LEFT_PAR expresion RIGHT_PAR bloque condicionA\n\n    condicionA : ELSE bloque SEMICOLON empty\n            | SEMICOLON empty\n    \n\n    escritura : PRINT LEFT_PAR escrituraA\n    \n    escrituraA : expresion escrituraB\n               | STRING escrituraB\n\n    escrituraB : COMMA  escrituraA\n               | RIGHT_PAR SEMICOLON empty\n    \n    expresion : exp expresionA\n\n    expresionA : LESS exp empty\n            | GREATER exp empty\n            | DIFFERENT exp empty\n            | empty\n    \n\n    exp : termino expA \n\n    expA : PLUS exp\n        | MINUS exp\n        | empty\n    \n\n    termino : factor terminoA\n\n    terminoA : MULTIPLY termino\n            | DIVIDE termino\n            | empty\n    \n\n    factor : LEFT_PAR expresion RIGHT_PAR empty\n            | factorA\n    factorA : PLUS varcte empty\n            | MINUS varcte empty\n            | varcte empty\n    \n\n    varcte : ID empty\n           | INT empty\n           | FLOAT empty\n    \n\n    empty : \n    '
+_lr_signature = 'COLON COMMA DIFFERENT DIVIDE ELSE EQUAL FLOAT GREATER ID IF INT LEFT_CURVBR LEFT_PAR LESS MINUS MULTIPLY PLUS PRINT PROGRAM RIGHT_CURVBR RIGHT_PAR SEMICOLON STRING VAR\n    program :  PROGRAM ID SEMICOLON programA\n\n    programA : vars programB\n             | programB\n    \n    programB : bloque empty\n    \n    vars : VAR varsA \n\n    varsA : ID COMMA varsA \n          | ID COLON tipo SEMICOLON varsB\n    \n    varsB : varsA\n          | empty\n    \n    tipo : INT empty\n         | FLOAT empty\n    \n    bloque : LEFT_CURVBR bloqueA\n    bloqueA : estatuto bloqueA\n            | RIGHT_CURVBR empty\n    \n    estatuto : asignacion empty\n             | condicion empty\n             | escritura empty\n    \n    asignacion : ID EQUAL expresion SEMICOLON empty\n    \n    escritura  : PRINT LEFT_PAR escrituraA\n\n    escrituraA : expresion escrituraB\n               | STRING escrituraB\n\n    escrituraB : COMMA  escrituraA\n               | RIGHT_PAR SEMICOLON empty\n    \n    expresion : exp expresionA\n\n    expresionA : LESS exp empty\n              | GREATER exp empty\n              | DIFFERENT exp empty\n              | empty\n    \n    condicion : IF LEFT_PAR expresion RIGHT_PAR bloque condicionA\n\n    condicionA : ELSE bloque empty\n               | empty\n    \n    exp : termino expA \n\n    expA : PLUS exp\n         | MINUS exp\n         | empty\n    \n    termino : factor terminoA\n\n    terminoA : MULTIPLY termino\n             | DIVIDE termino\n             | empty\n    \n    factor : LEFT_PAR expresion RIGHT_PAR empty\n            | factorA\n\n    factorA : PLUS factorB\n            | MINUS factorB\n            | factorB\n\n    factorB : varcte empty\n    \n    varcte : ID empty\n           | INT empty\n           | FLOAT empty\n    \n\n    empty :\n    '
     
-_lr_action_items = {'PROGRAM':([0,],[2,]),'$end':([1,5,7,10,11,14,15,23,26,27,28,39,],[0,-1,-47,-47,-3,-10,-47,-2,-11,-47,-13,-12,]),'ID':([2,8,9,16,17,18,19,24,29,30,31,32,33,34,45,47,49,53,56,60,62,64,65,67,68,71,72,81,82,84,87,99,100,106,108,109,111,112,113,],[3,13,20,20,-47,-47,-47,13,-14,-15,-16,40,40,40,40,40,40,-21,13,-47,40,40,40,40,40,40,40,-22,40,-23,-17,-24,-47,-18,-47,-25,-20,-47,-19,]),'SEMICOLON':([3,14,15,26,27,28,36,37,38,39,40,41,42,43,44,46,48,50,51,57,58,59,61,63,66,69,70,73,75,76,77,78,79,83,88,89,90,91,92,93,94,95,96,97,98,102,103,104,105,110,],[4,-10,-47,-11,-47,-13,56,-47,-47,-12,-47,60,-47,-47,-47,-40,-47,-47,-47,-8,-9,-44,-26,-30,-31,-34,-35,-38,-47,-43,-47,-45,-46,100,-47,-47,-47,-32,-33,-36,-37,-47,-41,-42,108,-27,-28,-29,-39,112,]),'VAR':([4,],[8,]),'LEFT_CURVBR':([4,6,12,35,56,80,85,86,101,107,],[9,9,-4,-5,-47,9,-6,-47,-7,9,]),'RIGHT_CURVBR':([9,16,17,18,19,29,30,31,53,60,81,84,87,99,100,106,108,109,111,112,113,],[15,27,-47,-47,-47,-14,-15,-16,-21,-47,-22,-23,-17,-24,-47,-18,-47,-25,-20,-47,-19,]),'IF':([9,16,17,18,19,29,30,31,53,60,81,84,87,99,100,106,108,109,111,112,113,],[21,21,-47,-47,-47,-14,-15,-16,-21,-47,-22,-23,-17,-24,-47,-18,-47,-25,-20,-47,-19,]),'PRINT':([9,16,17,18,19,29,30,31,53,60,81,84,87,99,100,106,108,109,111,112,113,],[22,22,-47,-47,-47,-14,-15,-16,-21,-47,-22,-23,-17,-24,-47,-18,-47,-25,-20,-47,-19,]),'COMMA':([13,40,42,43,44,46,48,50,51,54,55,59,61,63,66,69,70,73,75,76,77,78,79,88,89,90,91,92,93,94,95,96,97,102,103,104,105,],[24,-47,-47,-47,-47,-40,-47,-47,-47,82,82,-44,-26,-30,-31,-34,-35,-38,-47,-43,-47,-45,-46,-47,-47,-47,-32,-33,-36,-37,-47,-41,-42,-27,-28,-29,-39,]),'COLON':([13,],[25,]),'ELSE':([14,15,26,27,28,39,98,],[-10,-47,-11,-47,-13,-12,107,]),'EQUAL':([20,],[32,]),'LEFT_PAR':([21,22,32,33,34,45,62,64,65,67,68,71,72,82,],[33,34,45,45,45,45,45,45,45,45,45,45,45,45,]),'INT':([25,32,33,34,45,47,49,62,64,65,67,68,71,72,82,],[37,50,50,50,50,50,50,50,50,50,50,50,50,50,50,]),'FLOAT':([25,32,33,34,45,47,49,62,64,65,67,68,71,72,82,],[38,51,51,51,51,51,51,51,51,51,51,51,51,51,51,]),'PLUS':([32,33,34,40,43,44,45,46,48,50,51,59,62,64,65,67,68,70,71,72,73,75,76,77,78,79,82,93,94,95,96,97,105,],[47,47,47,-47,67,-47,47,-40,-47,-47,-47,-44,47,47,47,47,47,-35,47,47,-38,-47,-43,-47,-45,-46,47,-36,-37,-47,-41,-42,-39,]),'MINUS':([32,33,34,40,43,44,45,46,48,50,51,59,62,64,65,67,68,70,71,72,73,75,76,77,78,79,82,93,94,95,96,97,105,],[49,49,49,-47,68,-47,49,-40,-47,-47,-47,-44,49,49,49,49,49,-35,49,49,-38,-47,-43,-47,-45,-46,49,-36,-37,-47,-41,-42,-39,]),'STRING':([34,82,],[55,55,]),'MULTIPLY':([40,44,46,48,50,51,59,75,76,77,78,79,95,96,97,105,],[-47,71,-40,-47,-47,-47,-44,-47,-43,-47,-45,-46,-47,-41,-42,-39,]),'DIVIDE':([40,44,46,48,50,51,59,75,76,77,78,79,95,96,97,105,],[-47,72,-40,-47,-47,-47,-44,-47,-43,-47,-45,-46,-47,-41,-42,-39,]),'LESS':([40,42,43,44,46,48,50,51,59,66,69,70,73,75,76,77,78,79,91,92,93,94,95,96,97,105,],[-47,62,-47,-47,-40,-47,-47,-47,-44,-31,-34,-35,-38,-47,-43,-47,-45,-46,-32,-33,-36,-37,-47,-41,-42,-39,]),'GREATER':([40,42,43,44,46,48,50,51,59,66,69,70,73,75,76,77,78,79,91,92,93,94,95,96,97,105,],[-47,64,-47,-47,-40,-47,-47,-47,-44,-31,-34,-35,-38,-47,-43,-47,-45,-46,-32,-33,-36,-37,-47,-41,-42,-39,]),'DIFFERENT':([40,42,43,44,46,48,50,51,59,66,69,70,73,75,76,77,78,79,91,92,93,94,95,96,97,105,],[-47,65,-47,-47,-40,-47,-47,-47,-44,-31,-34,-35,-38,-47,-43,-47,-45,-46,-32,-33,-36,-37,-47,-41,-42,-39,]),'RIGHT_PAR':([40,42,43,44,46,48,50,51,52,54,55,59,61,63,66,69,70,73,74,75,76,77,78,79,88,89,90,91,92,93,94,95,96,97,102,103,104,105,],[-47,-47,-47,-47,-40,-47,-47,-47,80,83,83,-44,-26,-30,-31,-34,-35,-38,95,-47,-43,-47,-45,-46,-47,-47,-47,-32,-33,-36,-37,-47,-41,-42,-27,-28,-29,-39,]),}
+_lr_action_items = {'PROGRAM':([0,],[2,]),'$end':([1,5,7,9,11,14,15,17,26,27,],[0,-1,-3,-49,-2,-4,-12,-49,-13,-14,]),'ID':([2,8,10,15,16,17,18,19,20,24,26,27,28,29,30,31,32,33,43,45,47,52,55,59,61,63,64,66,67,70,71,80,81,83,87,96,97,98,103,105,106,107,108,],[3,13,21,-12,21,-49,-49,-49,-49,13,-13,-14,-15,-16,-17,38,38,38,38,38,38,-19,13,-49,38,38,38,38,38,38,38,-20,38,-21,-18,-49,-22,-49,-29,-31,-23,-49,-30,]),'SEMICOLON':([3,35,36,37,38,39,40,41,42,44,46,48,49,50,56,57,58,60,62,65,68,69,72,74,75,76,77,78,82,88,89,90,91,92,93,94,95,99,100,101,102,],[4,55,-49,-49,-49,59,-49,-49,-49,-41,-44,-49,-49,-49,-10,-11,-46,-24,-28,-32,-35,-36,-39,-42,-43,-45,-47,-48,98,-49,-49,-49,-33,-34,-37,-38,-49,-25,-26,-27,-40,]),'VAR':([4,],[8,]),'LEFT_CURVBR':([4,6,12,34,55,79,84,85,86,104,],[10,10,-5,-6,-49,10,-7,-8,-9,10,]),'RIGHT_CURVBR':([10,15,16,17,18,19,20,26,27,28,29,30,52,59,80,83,87,96,97,98,103,105,106,107,108,],[17,-12,17,-49,-49,-49,-49,-13,-14,-15,-16,-17,-19,-49,-20,-21,-18,-49,-22,-49,-29,-31,-23,-49,-30,]),'IF':([10,15,16,17,18,19,20,26,27,28,29,30,52,59,80,83,87,96,97,98,103,105,106,107,108,],[22,-12,22,-49,-49,-49,-49,-13,-14,-15,-16,-17,-19,-49,-20,-21,-18,-49,-22,-49,-29,-31,-23,-49,-30,]),'PRINT':([10,15,16,17,18,19,20,26,27,28,29,30,52,59,80,83,87,96,97,98,103,105,106,107,108,],[23,-12,23,-49,-49,-49,-49,-13,-14,-15,-16,-17,-19,-49,-20,-21,-18,-49,-22,-49,-29,-31,-23,-49,-30,]),'COMMA':([13,38,40,41,42,44,46,48,49,50,53,54,58,60,62,65,68,69,72,74,75,76,77,78,88,89,90,91,92,93,94,95,99,100,101,102,],[24,-49,-49,-49,-49,-41,-44,-49,-49,-49,81,81,-46,-24,-28,-32,-35,-36,-39,-42,-43,-45,-47,-48,-49,-49,-49,-33,-34,-37,-38,-49,-25,-26,-27,-40,]),'COLON':([13,],[25,]),'ELSE':([15,17,26,27,96,],[-12,-49,-13,-14,104,]),'EQUAL':([21,],[31,]),'LEFT_PAR':([22,23,31,32,33,43,61,63,64,66,67,70,71,81,],[32,33,43,43,43,43,43,43,43,43,43,43,43,43,]),'INT':([25,31,32,33,43,45,47,61,63,64,66,67,70,71,81,],[36,49,49,49,49,49,49,49,49,49,49,49,49,49,49,]),'FLOAT':([25,31,32,33,43,45,47,61,63,64,66,67,70,71,81,],[37,50,50,50,50,50,50,50,50,50,50,50,50,50,50,]),'PLUS':([31,32,33,38,41,42,43,44,46,48,49,50,58,61,63,64,66,67,69,70,71,72,74,75,76,77,78,81,93,94,95,102,],[45,45,45,-49,66,-49,45,-41,-44,-49,-49,-49,-46,45,45,45,45,45,-36,45,45,-39,-42,-43,-45,-47,-48,45,-37,-38,-49,-40,]),'MINUS':([31,32,33,38,41,42,43,44,46,48,49,50,58,61,63,64,66,67,69,70,71,72,74,75,76,77,78,81,93,94,95,102,],[47,47,47,-49,67,-49,47,-41,-44,-49,-49,-49,-46,47,47,47,47,47,-36,47,47,-39,-42,-43,-45,-47,-48,47,-37,-38,-49,-40,]),'STRING':([33,81,],[54,54,]),'MULTIPLY':([38,42,44,46,48,49,50,58,74,75,76,77,78,95,102,],[-49,70,-41,-44,-49,-49,-49,-46,-42,-43,-45,-47,-48,-49,-40,]),'DIVIDE':([38,42,44,46,48,49,50,58,74,75,76,77,78,95,102,],[-49,71,-41,-44,-49,-49,-49,-46,-42,-43,-45,-47,-48,-49,-40,]),'LESS':([38,40,41,42,44,46,48,49,50,58,65,68,69,72,74,75,76,77,78,91,92,93,94,95,102,],[-49,61,-49,-49,-41,-44,-49,-49,-49,-46,-32,-35,-36,-39,-42,-43,-45,-47,-48,-33,-34,-37,-38,-49,-40,]),'GREATER':([38,40,41,42,44,46,48,49,50,58,65,68,69,72,74,75,76,77,78,91,92,93,94,95,102,],[-49,63,-49,-49,-41,-44,-49,-49,-49,-46,-32,-35,-36,-39,-42,-43,-45,-47,-48,-33,-34,-37,-38,-49,-40,]),'DIFFERENT':([38,40,41,42,44,46,48,49,50,58,65,68,69,72,74,75,76,77,78,91,92,93,94,95,102,],[-49,64,-49,-49,-41,-44,-49,-49,-49,-46,-32,-35,-36,-39,-42,-43,-45,-47,-48,-33,-34,-37,-38,-49,-40,]),'RIGHT_PAR':([38,40,41,42,44,46,48,49,50,51,53,54,58,60,62,65,68,69,72,73,74,75,76,77,78,88,89,90,91,92,93,94,95,99,100,101,102,],[-49,-49,-49,-49,-41,-44,-49,-49,-49,79,82,82,-46,-24,-28,-32,-35,-36,-39,95,-42,-43,-45,-47,-48,-49,-49,-49,-33,-34,-37,-38,-49,-25,-26,-27,-40,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -17,7 +17,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'program':([0,],[1,]),'programA':([4,],[5,]),'vars':([4,],[6,]),'bloque':([4,6,80,107,],[7,10,98,110,]),'empty':([7,10,15,17,18,19,27,37,38,40,42,43,44,48,50,51,56,60,75,77,86,88,89,90,95,100,108,112,],[11,23,26,29,30,31,39,57,58,59,63,69,73,76,78,79,85,87,96,97,101,102,103,104,105,109,111,113,]),'varsA':([8,24,56,],[12,35,86,]),'bloqueA':([9,16,],[14,28,]),'estatuto':([9,16,],[16,16,]),'asignacion':([9,16,],[17,17,]),'condicion':([9,16,],[18,18,]),'escritura':([9,16,],[19,19,]),'tipo':([25,],[36,]),'expresion':([32,33,34,45,82,],[41,52,54,74,54,]),'exp':([32,33,34,45,62,64,65,67,68,82,],[42,42,42,42,88,89,90,91,92,42,]),'termino':([32,33,34,45,62,64,65,67,68,71,72,82,],[43,43,43,43,43,43,43,43,43,93,94,43,]),'factor':([32,33,34,45,62,64,65,67,68,71,72,82,],[44,44,44,44,44,44,44,44,44,44,44,44,]),'factorA':([32,33,34,45,62,64,65,67,68,71,72,82,],[46,46,46,46,46,46,46,46,46,46,46,46,]),'varcte':([32,33,34,45,47,49,62,64,65,67,68,71,72,82,],[48,48,48,48,75,77,48,48,48,48,48,48,48,48,]),'escrituraA':([34,82,],[53,99,]),'expresionA':([42,],[61,]),'expA':([43,],[66,]),'terminoA':([44,],[70,]),'escrituraB':([54,55,],[81,84,]),'condicionA':([98,],[106,]),}
+_lr_goto_items = {'program':([0,],[1,]),'programA':([4,],[5,]),'vars':([4,],[6,]),'programB':([4,6,],[7,11,]),'bloque':([4,6,79,104,],[9,9,96,107,]),'varsA':([8,24,55,],[12,34,85,]),'empty':([9,17,18,19,20,36,37,38,40,41,42,48,49,50,55,59,88,89,90,95,96,98,107,],[14,27,28,29,30,56,57,58,62,68,72,76,77,78,86,87,99,100,101,102,105,106,108,]),'bloqueA':([10,16,],[15,26,]),'estatuto':([10,16,],[16,16,]),'asignacion':([10,16,],[18,18,]),'condicion':([10,16,],[19,19,]),'escritura':([10,16,],[20,20,]),'tipo':([25,],[35,]),'expresion':([31,32,33,43,81,],[39,51,53,73,53,]),'exp':([31,32,33,43,61,63,64,66,67,81,],[40,40,40,40,88,89,90,91,92,40,]),'termino':([31,32,33,43,61,63,64,66,67,70,71,81,],[41,41,41,41,41,41,41,41,41,93,94,41,]),'factor':([31,32,33,43,61,63,64,66,67,70,71,81,],[42,42,42,42,42,42,42,42,42,42,42,42,]),'factorA':([31,32,33,43,61,63,64,66,67,70,71,81,],[44,44,44,44,44,44,44,44,44,44,44,44,]),'factorB':([31,32,33,43,45,47,61,63,64,66,67,70,71,81,],[46,46,46,46,74,75,46,46,46,46,46,46,46,46,]),'varcte':([31,32,33,43,45,47,61,63,64,66,67,70,71,81,],[48,48,48,48,48,48,48,48,48,48,48,48,48,48,]),'escrituraA':([33,81,],[52,97,]),'expresionA':([40,],[60,]),'expA':([41,],[65,]),'terminoA':([42,],[69,]),'escrituraB':([53,54,],[80,83,]),'varsB':([55,],[84,]),'condicionA':([96,],[103,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -27,51 +27,53 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> program","S'",1,None,None,None),
-  ('program -> PROGRAM ID SEMICOLON programA','program',4,'p_program','littleducky.py',127),
-  ('programA -> vars bloque empty','programA',3,'p_program','littleducky.py',129),
-  ('programA -> bloque empty','programA',2,'p_program','littleducky.py',130),
-  ('vars -> VAR varsA','vars',2,'p_vars','littleducky.py',137),
-  ('varsA -> ID COMMA varsA','varsA',3,'p_vars','littleducky.py',139),
-  ('varsA -> ID COLON tipo SEMICOLON empty','varsA',5,'p_vars','littleducky.py',140),
-  ('varsA -> ID COLON tipo SEMICOLON varsA empty','varsA',6,'p_vars','littleducky.py',141),
-  ('tipo -> INT empty','tipo',2,'p_tipo','littleducky.py',148),
-  ('tipo -> FLOAT empty','tipo',2,'p_tipo','littleducky.py',149),
-  ('bloque -> LEFT_CURVBR bloqueA','bloque',2,'p_bloque','littleducky.py',156),
-  ('bloque -> LEFT_CURVBR RIGHT_CURVBR empty','bloque',3,'p_bloque','littleducky.py',157),
-  ('bloqueA -> estatuto RIGHT_CURVBR empty','bloqueA',3,'p_bloque','littleducky.py',159),
-  ('bloqueA -> estatuto bloqueA','bloqueA',2,'p_bloque','littleducky.py',160),
-  ('estatuto -> asignacion empty','estatuto',2,'p_estatuto','littleducky.py',167),
-  ('estatuto -> condicion empty','estatuto',2,'p_estatuto','littleducky.py',168),
-  ('estatuto -> escritura empty','estatuto',2,'p_estatuto','littleducky.py',169),
-  ('asignacion -> ID EQUAL expresion SEMICOLON empty','asignacion',5,'p_asignacion','littleducky.py',176),
-  ('condicion -> IF LEFT_PAR expresion RIGHT_PAR bloque condicionA','condicion',6,'p_condicion','littleducky.py',183),
-  ('condicionA -> ELSE bloque SEMICOLON empty','condicionA',4,'p_condicion','littleducky.py',185),
-  ('condicionA -> SEMICOLON empty','condicionA',2,'p_condicion','littleducky.py',186),
-  ('escritura -> PRINT LEFT_PAR escrituraA','escritura',3,'p_escritura','littleducky.py',193),
-  ('escrituraA -> expresion escrituraB','escrituraA',2,'p_escritura','littleducky.py',195),
-  ('escrituraA -> STRING escrituraB','escrituraA',2,'p_escritura','littleducky.py',196),
-  ('escrituraB -> COMMA escrituraA','escrituraB',2,'p_escritura','littleducky.py',198),
-  ('escrituraB -> RIGHT_PAR SEMICOLON empty','escrituraB',3,'p_escritura','littleducky.py',199),
-  ('expresion -> exp expresionA','expresion',2,'p_expresion','littleducky.py',205),
-  ('expresionA -> LESS exp empty','expresionA',3,'p_expresion','littleducky.py',207),
-  ('expresionA -> GREATER exp empty','expresionA',3,'p_expresion','littleducky.py',208),
-  ('expresionA -> DIFFERENT exp empty','expresionA',3,'p_expresion','littleducky.py',209),
-  ('expresionA -> empty','expresionA',1,'p_expresion','littleducky.py',210),
-  ('exp -> termino expA','exp',2,'p_exp','littleducky.py',217),
-  ('expA -> PLUS exp','expA',2,'p_exp','littleducky.py',219),
-  ('expA -> MINUS exp','expA',2,'p_exp','littleducky.py',220),
-  ('expA -> empty','expA',1,'p_exp','littleducky.py',221),
-  ('termino -> factor terminoA','termino',2,'p_termino','littleducky.py',228),
-  ('terminoA -> MULTIPLY termino','terminoA',2,'p_termino','littleducky.py',230),
-  ('terminoA -> DIVIDE termino','terminoA',2,'p_termino','littleducky.py',231),
-  ('terminoA -> empty','terminoA',1,'p_termino','littleducky.py',232),
-  ('factor -> LEFT_PAR expresion RIGHT_PAR empty','factor',4,'p_factor','littleducky.py',239),
-  ('factor -> factorA','factor',1,'p_factor','littleducky.py',240),
-  ('factorA -> PLUS varcte empty','factorA',3,'p_factor','littleducky.py',241),
-  ('factorA -> MINUS varcte empty','factorA',3,'p_factor','littleducky.py',242),
-  ('factorA -> varcte empty','factorA',2,'p_factor','littleducky.py',243),
-  ('varcte -> ID empty','varcte',2,'p_varcte','littleducky.py',250),
-  ('varcte -> INT empty','varcte',2,'p_varcte','littleducky.py',251),
-  ('varcte -> FLOAT empty','varcte',2,'p_varcte','littleducky.py',252),
-  ('empty -> <empty>','empty',0,'p_empty','littleducky.py',259),
+  ('program -> PROGRAM ID SEMICOLON programA','program',4,'p_program','littleducky.py',131),
+  ('programA -> vars programB','programA',2,'p_program','littleducky.py',133),
+  ('programA -> programB','programA',1,'p_program','littleducky.py',134),
+  ('programB -> bloque empty','programB',2,'p_program','littleducky.py',136),
+  ('vars -> VAR varsA','vars',2,'p_vars','littleducky.py',142),
+  ('varsA -> ID COMMA varsA','varsA',3,'p_vars','littleducky.py',144),
+  ('varsA -> ID COLON tipo SEMICOLON varsB','varsA',5,'p_vars','littleducky.py',145),
+  ('varsB -> varsA','varsB',1,'p_vars','littleducky.py',147),
+  ('varsB -> empty','varsB',1,'p_vars','littleducky.py',148),
+  ('tipo -> INT empty','tipo',2,'p_tipo','littleducky.py',154),
+  ('tipo -> FLOAT empty','tipo',2,'p_tipo','littleducky.py',155),
+  ('bloque -> LEFT_CURVBR bloqueA','bloque',2,'p_bloque','littleducky.py',161),
+  ('bloqueA -> estatuto bloqueA','bloqueA',2,'p_bloque','littleducky.py',162),
+  ('bloqueA -> RIGHT_CURVBR empty','bloqueA',2,'p_bloque','littleducky.py',163),
+  ('estatuto -> asignacion empty','estatuto',2,'p_estatuto','littleducky.py',169),
+  ('estatuto -> condicion empty','estatuto',2,'p_estatuto','littleducky.py',170),
+  ('estatuto -> escritura empty','estatuto',2,'p_estatuto','littleducky.py',171),
+  ('asignacion -> ID EQUAL expresion SEMICOLON empty','asignacion',5,'p_asignacion','littleducky.py',177),
+  ('escritura -> PRINT LEFT_PAR escrituraA','escritura',3,'p_escritura','littleducky.py',183),
+  ('escrituraA -> expresion escrituraB','escrituraA',2,'p_escritura','littleducky.py',185),
+  ('escrituraA -> STRING escrituraB','escrituraA',2,'p_escritura','littleducky.py',186),
+  ('escrituraB -> COMMA escrituraA','escrituraB',2,'p_escritura','littleducky.py',188),
+  ('escrituraB -> RIGHT_PAR SEMICOLON empty','escrituraB',3,'p_escritura','littleducky.py',189),
+  ('expresion -> exp expresionA','expresion',2,'p_expresion','littleducky.py',195),
+  ('expresionA -> LESS exp empty','expresionA',3,'p_expresion','littleducky.py',197),
+  ('expresionA -> GREATER exp empty','expresionA',3,'p_expresion','littleducky.py',198),
+  ('expresionA -> DIFFERENT exp empty','expresionA',3,'p_expresion','littleducky.py',199),
+  ('expresionA -> empty','expresionA',1,'p_expresion','littleducky.py',200),
+  ('condicion -> IF LEFT_PAR expresion RIGHT_PAR bloque condicionA','condicion',6,'p_condicion','littleducky.py',206),
+  ('condicionA -> ELSE bloque empty','condicionA',3,'p_condicion','littleducky.py',208),
+  ('condicionA -> empty','condicionA',1,'p_condicion','littleducky.py',209),
+  ('exp -> termino expA','exp',2,'p_exp','littleducky.py',215),
+  ('expA -> PLUS exp','expA',2,'p_exp','littleducky.py',217),
+  ('expA -> MINUS exp','expA',2,'p_exp','littleducky.py',218),
+  ('expA -> empty','expA',1,'p_exp','littleducky.py',219),
+  ('termino -> factor terminoA','termino',2,'p_termino','littleducky.py',225),
+  ('terminoA -> MULTIPLY termino','terminoA',2,'p_termino','littleducky.py',227),
+  ('terminoA -> DIVIDE termino','terminoA',2,'p_termino','littleducky.py',228),
+  ('terminoA -> empty','terminoA',1,'p_termino','littleducky.py',229),
+  ('factor -> LEFT_PAR expresion RIGHT_PAR empty','factor',4,'p_factor','littleducky.py',235),
+  ('factor -> factorA','factor',1,'p_factor','littleducky.py',236),
+  ('factorA -> PLUS factorB','factorA',2,'p_factor','littleducky.py',238),
+  ('factorA -> MINUS factorB','factorA',2,'p_factor','littleducky.py',239),
+  ('factorA -> factorB','factorA',1,'p_factor','littleducky.py',240),
+  ('factorB -> varcte empty','factorB',2,'p_factor','littleducky.py',242),
+  ('varcte -> ID empty','varcte',2,'p_varcte','littleducky.py',248),
+  ('varcte -> INT empty','varcte',2,'p_varcte','littleducky.py',249),
+  ('varcte -> FLOAT empty','varcte',2,'p_varcte','littleducky.py',250),
+  ('empty -> <empty>','empty',0,'p_empty','littleducky.py',260),
 ]

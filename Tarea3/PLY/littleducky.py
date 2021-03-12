@@ -53,7 +53,7 @@ t_PLUS = r'\+'
 t_MINUS = r'\-'
 t_MULTIPLY = r'\*'
 t_DIVIDE = r'\/'
-t_ignore = r' \t'
+t_ignore = ' \t'
 
 
 def t_INT(t):
@@ -105,9 +105,10 @@ def t_PRINT(t):
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
+
 # Error variable 
 def t_error(t):
-    print('Unvalid character %r at line: %d,' % (t.value[0], t.lexer.lineno,))
+    print('Unvalid character %r at line: %d,' % (t.value[0], t.lexer.lineno))
     t.lexer.skip(1)
 
 lexer = lex.lex()
@@ -127,75 +128,69 @@ def testLex():
 
 def p_program(p):
     '''
-
     program :  PROGRAM ID SEMICOLON programA
 
-    programA : vars bloque empty
-            | bloque empty
+    programA : vars programB
+             | programB
+    
+    programB : bloque empty
     '''
     p[0] = None
 
 def p_vars(p):
     '''
-
     vars : VAR varsA 
 
     varsA : ID COMMA varsA 
-        | ID COLON tipo SEMICOLON empty
-        | ID COLON tipo SEMICOLON varsA empty
+          | ID COLON tipo SEMICOLON varsB
+    
+    varsB : varsA
+          | empty
     '''
     p[0] = None
 
 def p_tipo(p):
     '''
-
     tipo : INT empty
-        | FLOAT empty
+         | FLOAT empty
     '''
     p[0] = None
 
 def p_bloque(p):
     '''
-
     bloque : LEFT_CURVBR bloqueA
-          | LEFT_CURVBR RIGHT_CURVBR empty
-
-    bloqueA : estatuto RIGHT_CURVBR empty
-            | estatuto bloqueA
+    bloqueA : estatuto bloqueA
+            | RIGHT_CURVBR empty
     '''
     p[0] = None
 
 def p_estatuto(p):
     '''
-
     estatuto : asignacion empty
-            | condicion empty
-            | escritura empty
+             | condicion empty
+             | escritura empty
     '''
     p[0] = None
 
 def p_asignacion(p):
     '''
-
     asignacion : ID EQUAL expresion SEMICOLON empty
     '''
     p[0] = None
 
 def p_condicion(p):
     '''
-
     condicion : IF LEFT_PAR expresion RIGHT_PAR bloque condicionA
 
-    condicionA : ELSE bloque SEMICOLON empty
-            | SEMICOLON empty
+    condicionA : ELSE bloque empty
+               | empty
     '''
     p[0] = None
 
 def p_escritura(p):
     '''
+    escritura  : PRINT LEFT_PAR escrituraA
 
-    escritura : PRINT LEFT_PAR escrituraA
-    
     escrituraA : expresion escrituraB
                | STRING escrituraB
 
@@ -209,63 +204,64 @@ def p_expresion(p):
     expresion : exp expresionA
 
     expresionA : LESS exp empty
-            | GREATER exp empty
-            | DIFFERENT exp empty
-            | empty
+              | GREATER exp empty
+              | DIFFERENT exp empty
+              | empty
     '''
     p[0] = None
 
 def p_exp(p):
     '''
-
     exp : termino expA 
 
     expA : PLUS exp
-        | MINUS exp
-        | empty
-    '''
+         | MINUS exp
+         | empty
+    ''' 
     p[0] = None
 
 def p_termino(p):
     '''
-
     termino : factor terminoA
 
     terminoA : MULTIPLY termino
-            | DIVIDE termino
-            | empty
+             | DIVIDE termino
+             | empty
     '''
     p[0] = None
 
 def p_factor(p):
     '''
-
     factor : LEFT_PAR expresion RIGHT_PAR empty
             | factorA
-    factorA : PLUS varcte empty
-            | MINUS varcte empty
-            | varcte empty
+
+    factorA : PLUS factorB
+            | MINUS factorB
+            | factorB
+
+    factorB : varcte empty
     '''
     p[0] = None
 
 def p_varcte(p):
     '''
-
     varcte : ID empty
            | INT empty
            | FLOAT empty
     '''
     p[0] = None
 
+def p_error(p):
+    print("Syntax Error!! Line %d." % (lexer.lineno))
+
 def p_empty(p):
     '''
 
-    empty : 
+    empty :
     '''
     p[0] = None
 
-def p_error(p):
-    print("Syntax Error!! Line %d." % (lexer.lineno))
+
 
 parser = yacc.yacc()
 
@@ -273,6 +269,7 @@ while True:
     try:
         text = input('Insert test doc (.txt): ')
         f = open(text, "r")
+        lexer.lineno = 0
         for s in f:
             parser.parse(s)
     except EOFError:

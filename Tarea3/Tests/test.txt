@@ -1,2 +1,12 @@
-program test ; { }
-program test ; { }
+program test; { }
+program test; {b = 2 > 3 ; }
+program test; {b = 2 ; }
+program test; { print( asdf ) ; }
+program test; { print("asdf", "jklp"); }
+program test; { print("asdf", str); }
+program test: { print(str, str2); }
+program test; { print(str, str2); }
+program test; { if (stm) {var = 1256;}}
+program test; { if (stm) {var = 1256;} else {var = 123;}}
+program test; var0 a : 12325; { }
+program test; var0 a, b: 12325; { }

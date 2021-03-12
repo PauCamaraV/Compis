@@ -77,24 +77,20 @@ class CalcLexer(Lexer):
     def error(self, t):
         print('Unvalid character %r at line: %d:' % (self.lineno, t.value[0]))
         self.index += 1
-    
-    def getLineno(self):
-        return self.lineno
-
-# Test Lexer function
    
-
 # ***** PARSER *****
 
 class CalcParser(Parser):
     tokens = CalcLexer.tokens
+    index = 1
+
     def __init__(self):
         self.names = { }
     
  # Program   
     @_('PROGRAM ID SEMICOLON programA')
     def program(self, p):
-        return p
+        self.index += 1
 
     @_('vars bloque empty',
        'bloque empty')
@@ -225,11 +221,12 @@ class CalcParser(Parser):
         return p
 
     def error(self, p):
-        if p:
-            print("Syntax Error!! Line: %d, Index: %d" % (self.index, p.index))
-            self.tokens
-        else:
-            print("Syntax Error!! EOF")
+        #if p:
+        print("Syntax Error!! Line: %d" % (self.index))
+        self.index += 1
+        self.tokens
+      #  else:
+       #     print("Syntax Error!! EOF")
 
 
 if __name__ == '__main__':
