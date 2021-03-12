@@ -1,9 +1,0 @@
-program test ; { } 
-program test ; { } 
-program test 
-program test ; { } 
-program test ; { } 
-program test 
-program test ; { } 
-program test 
-program test 

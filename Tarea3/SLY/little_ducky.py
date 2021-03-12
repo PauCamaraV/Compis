@@ -36,7 +36,7 @@ class CalcLexer(Lexer):
 
 # Token definitions
     PROGRAM = r'program'
-    ID = r'[a-z][a-zA-Z0-9]*'
+    ID = r'[A-z][a-zA-Z0-9]*'
     STRING = r'"[a-zA-Z0-9!@#$%^&*()]*"'
     COMMA = r'\,'
     COLON = r'\:'

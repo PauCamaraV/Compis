@@ -1,0 +1,8 @@
+Prog
+program Test; 
+pro*pro
+....
+program Test; {aaaaa;}
+program Test; {A = if;}
+program Test; var1 var2
+program Test; { if ;}}
