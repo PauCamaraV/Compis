@@ -60,34 +60,29 @@ class CalcLexer(Lexer):
     ignore = r' \t'
 
 # Functions revisaaar
-
- @_(r'\d+\.\d+')
-    def FLOAT(self, t):
-        t.value = float(t.value)
-        return t
-
     @_(r'\d+')
     def INT(self, t):
         t.value = int(t.value)
+        return t
+
+    @_(r'\d+\.\d+')
+    def FLOAT(self, t):
+        t.value = float(t.value)
         return t
 
     @_(r'\n+')
     def ignore_newline(self, t):
         self.lineno += t.value.count('\n')
 
-    def t_error(self, t):
-        print('Line: %d: Not valid character: %r' % (self.lineno, t.value[0]))
+    def error(self, t):
+        print('Unvalid character %r at line: %d:' % (self.lineno, t.value[0]))
         self.index += 1
+    
+    def getLineno(self):
+        return self.lineno
 
 # Test Lexer function
-"""if __name__ == '__main__':
-    data = '''
-if else print + - * / gabo_125 Gabo 123 12.356
-@
-'''
-    lexer = CalcLexer()
-    for tok in lexer.tokenize(data):
-        print(tok)"""
+   
 
 # ***** PARSER *****
 
@@ -96,29 +91,157 @@ class CalcParser(Parser):
     def __init__(self):
         self.names = { }
     
-    # graficaaaaas
-    @_('PROGRAM ID SEMICOLON programT')
+ # Program   
+    @_('PROGRAM ID SEMICOLON programA')
     def program(self, p):
         return p
 
-    @_('vars programF',
-       'programF')
-    def programT(self, p):
+    @_('vars bloque empty',
+       'bloque empty')
+    def programA(self, p):
         return p
 
-     @_(' ')
+# Vars
+    @_('VAR varsA')
+    def vars(self, p):
+        return p
+
+    @_('ID COMMA varsA',
+       'ID COLON tipo SEMICOLON empty',
+       'ID COLON tipo SEMICOLON varsA empty')
+    def varsA(self, p):
+        return p
+
+# Tipo
+    @_('INT empty',
+       'FLOAT empty')
+    def tipo(self, p):
+        return p
+
+# Bloque
+    @_('LEFT_CURVBR bloqueA',
+       'LEFT_CURVBR RIGHT_CURVBR empty')
+    def bloque(self, p):
+        return p
+
+    @_('estatuto RIGHT_CURVBR empty',
+       'estatuto bloqueA')
+    def bloqueA(self, p):
+        return p
+
+# Estatuto
+    @_('asignacion empty',
+       'condicion empty',
+       'escritura empty')
+    def estatuto(self, p):
+        return p
+
+# asignacion
+    @_('ID EQUAL expresion SEMICOLON empty')
+    def asignacion(self, p):
+        return p
+
+# Condicion
+    @_('IF LEFT_PAR expresion RIGHT_PAR bloque condicionA')
+    def condicion(self, p):
+        return p
+
+    @_('ELSE bloque SEMICOLON empty',
+       'SEMICOLON empty')
+    def condicionA(self, p):
+        return p
+
+# Escritura
+    @_('PRINT LEFT_PAR escrituraA')
+    def escritura(self, p):
+        return p
+
+    @_('expresion escrituraB',
+       'STRING escrituraB')
+    def escrituraA(self, p):
+        return p
+    
+    @_('COMMA  escrituraA',
+       'RIGHT_PAR SEMICOLON empty')
+    def escrituraB(self, p):
+        return p
+
+# Expresion
+    @_('exp expresionA')
+    def expresion(self, p):
+        return p
+
+    @_('LESS exp empty',
+       'GREATER exp empty',
+       'DIFFERENT exp empty',
+       'empty')
+    def expresionA(self, p):
+        return p
+
+# Exp
+    @_('termino expA')
+    def exp(self, p):
+        return p
+
+    @_('PLUS exp empty',
+       'MINUS exp empty',
+       'empty')
+    def expA(self, p):
+        return p
+
+# Termino
+    @_('factor terminoA')
+    def termino(self, p):
+        return p
+
+    @_('MULTIPLY exp empty',
+       'DIVIDE exp empty',
+       'empty')
+    def terminoA(self, p):
+        return p
+
+# Factor
+    @_('LEFT_PAR expresion RIGHT_PAR empty',
+       'factorA')
+    def factor(self, p):
+        return p
+
+    @_('PLUS varcte empty',
+       'MINUS varcte empty',
+       'varcte empty')
+    def factorA(self, p):
+        return p
+
+# Varcte
+    @_('ID empty',
+       'INT empty',
+       'FLOAT empty')
+    def varcte(self, p):
+        return p
+
+# Empty
+    @_(' ')
     def empty(self, p):
         return p
+
+    def error(self, p):
+        if p:
+            print("Syntax Error!! Line: %d, Index: %d" % (self.index, p.index))
+            self.tokens
+        else:
+            print("Syntax Error!! EOF")
+
 
 if __name__ == '__main__':
     lexer = CalcLexer()
     parser = CalcParser()
     while True:
         try:
-            text = input('>> ')
+            text = input('Insert test doc (.txt): ')
+            f = open(text, "r")
+            for s in f:
+                parser.parse(lexer.tokenize(s))    
         except EOFError:
-            break
-        if text:
-            parser.parse(lexer.tokenize(text))
+            print('Error!!')
 
 

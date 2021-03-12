@@ -101,9 +101,13 @@ def t_PRINT(t):
     t.type = 'PRINT'
     return t 
 
+# New line
+def t_newline(t):
+    r'\n+'
+    t.lexer.lineno += len(t.value)
 # Error variable 
 def t_error(t):
-    print('Unvalid character!!: %s' % t.value[0])
+    print('Unvalid character %r at line: %d,' % (t.value[0], t.lexer.lineno,))
     t.lexer.skip(1)
 
 lexer = lex.lex()
@@ -261,16 +265,18 @@ def p_empty(p):
     p[0] = None
 
 def p_error(p):
-    print("Syntax Error!!")
+    print("Syntax Error!! Line %d." % (lexer.lineno))
 
 parser = yacc.yacc()
 
 while True:
     try:
-        s = input('>> ')
+        text = input('Insert test doc (.txt): ')
+        f = open(text, "r")
+        for s in f:
+            parser.parse(s)
     except EOFError:
-        break
-    parser.parse(s)
+        print('Error')
 
 
 
